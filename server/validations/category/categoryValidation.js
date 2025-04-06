@@ -1,4 +1,5 @@
-const { body } = require('express-validator');
+import { body } from 'express-validator';
+import Category from '../../models/category.js';
 
 const createCategoryValidator = () => {
     return [
@@ -7,9 +8,15 @@ const createCategoryValidator = () => {
             .notEmpty().withMessage('Kategori adı boş olamaz.')
             .isLength({ min: 3 }).withMessage('Kategori adı en az 3 harf olmalı.')
             .isLength({ max: 50 }).withMessage('Kategori adı en fazla 50 karakter olabilir.')
+            .custom(async (value) => {
+                const existingCategoy = await Category.findOne({ where: { name: value } });
+
+                if (existingCategoy) {
+                    throw new Error("Bu kategori adı zaten mevcut.")
+                }
+                return true;
+            })
     ];
 }
 
-module.exports = {
-    createCategoryValidator
-}
+export { createCategoryValidator }

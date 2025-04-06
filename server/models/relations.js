@@ -1,17 +1,17 @@
-const Product = require('./product');
-const Category = require('./category');
-const Shipment = require ('./shipment');
-const Pallet = require ('./pallet')
+import Product from './product.js';
+import Category from './category.js';
+import Shipment from './shipment.js';
+import Pallet from './pallet.js';
 
-Product.belongsToMany(Category, {through: 'ProductCategory'});Category.belongsToMany(Product, {through: 'ProductCategory'});
+Product.belongsToMany(Category, { through: 'ProductCategory' }); Category.belongsToMany(Product, { through: 'ProductCategory' });
 
-Shipment.belongsToMany(Product, {through: 'ProductShipment'});
-Product.belongsToMany(Shipment, {through: 'ProductShipment'});
+Shipment.belongsToMany(Product, { through: 'ProductShipment' });
+Product.belongsToMany(Shipment, { through: 'ProductShipment' });
 
-Product.hasMany(Pallet, {foreignKey: 'productId'});
-Pallet.belongsTo(Product, {foreignKey: 'proudctıd'});
+Product.hasMany(Pallet, { foreignKey: 'productId' });
+Pallet.belongsTo(Product, { foreignKey: 'productId' });
 
 
-module.exports = {
+export default {
     Product, Category, Shipment, Pallet
 };
