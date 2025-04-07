@@ -12,7 +12,7 @@ const getProducts = async (req, res) => {
     };
 };
 
-const getProduct = async (req, res) => {
+const getProductById = async (req, res) => {
     const { category } = req.query;
     if (category) {
         return await Product.findByPk(req.params.id, { include: Category });
@@ -21,4 +21,4 @@ const getProduct = async (req, res) => {
     };
 };
 
-export default { getProducts, getProduct }
+export default { getProducts, getProductById }

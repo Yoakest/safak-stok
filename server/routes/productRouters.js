@@ -6,18 +6,18 @@ import updateProduct from '../controllers/product/updateProduct.js';
 import deleteProduct from '../controllers/product/deleteProduct.js';
 import getProduct from '../controllers/product/getProduct.js';
 
-const { getProduct, getProducts } = getProduct;
+const { getProductById, getProducts } = getProduct;
 const router = express.Router();
 
 router.get('/', async (req, res) => {
-    if (req.params.id) {
-        const data = await getProduct(req, res);
-        res.status(200).json({ status: "success", data });
-    } else {
-        const data = await getProducts(req, res);
-        res.status(200).json({ status: "success", data });
-    }
+    const data = await getProducts(req, res);
+    res.status(200).json({ status: "success", data });
 });
+
+router.get('/:id', async (req, res) => {
+    const data = await getProductById(req, res);
+    res.status(200).json({ status: "success", data });
+})
 
 router.post('/', createProductValidator(), async (req, res) => {
     const errors = validationResult(req);
@@ -28,7 +28,7 @@ router.post('/', createProductValidator(), async (req, res) => {
     res.status(201).json({ status: "success", data });
 });
 
-router.put('/', createProductValidator(), async (req, res) => {
+router.put('/', async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
         return res.status(400).json({ errors: errors.array() });

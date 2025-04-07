@@ -52,7 +52,7 @@ const initializeDatabase = async () => {
         ]);
 
         // Modelleri senkronize et
-        await sequelize.sync({ alter: true });
+        // await sequelize.sync({ alter: true });
         console.log('✅ Veritabanı senkronizasyonu başarılı.');
     } catch (error) {
         console.error('❌ Veritabanı bağlantı hatası:', error);
