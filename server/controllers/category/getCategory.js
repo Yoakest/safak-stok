@@ -5,12 +5,11 @@ const getCategories = async (req, res) => {
     if (product) {
         return await Category.findAll({
             include: Product
-        })
+        });
     } else {
-        console.log("aaaa");
         return await Category.findAll();
-    }
-}
+    };
+};
 
 const getCategoryById = async (req, res) => {
     const { product } = req.query;

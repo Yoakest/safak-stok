@@ -10,7 +10,7 @@ router.get('/', (req, res) => {
     })
 });
 
-router.use('/products', productsRouter);
+router.use('/product', productsRouter);
 router.use('/category', categoryRouter)
 
 export default router;
