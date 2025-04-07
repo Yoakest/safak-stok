@@ -1,13 +1,20 @@
 import Product from "../../models/product.js";
 import Category from "../../models/category.js";
+import Pallet from "../../models/pallet.js";
 
 const getProducts = async (req, res) => {
-    const { category } = req.query;
+    const { category, pallet } = req.query;
     if (category) {
         return await Product.findAll({
             include: Category
         });
-    } else {
+    }
+    else if (pallet) {
+        return await Product.findAll({
+            include: Pallet
+        })
+    }
+    else {
         return await Product.findAll();
     };
 };

@@ -1,6 +1,7 @@
 import { DataTypes } from 'sequelize';
 import sequelize from '../config/db.js';
 
+// Half eklenecek
 const Pallet = sequelize.define('Pallet', {
     id: {
         type: DataTypes.INTEGER,
