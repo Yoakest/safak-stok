@@ -2,6 +2,7 @@ import { Sequelize } from 'sequelize';
 import dotenv from "dotenv";
 import path from 'path';
 
+
 dotenv.config();
 
 const sequelize = new Sequelize(process.env.DB_NAME, process.env.DB_USER, process.env.DB_PASS, {
@@ -52,11 +53,17 @@ const initializeDatabase = async () => {
         ]);
 
         // Modelleri senkronize et
-        // await sequelize.sync({ alter: true });
+        await sequelize.sync({ force: true });
         console.log('✅ Veritabanı senkronizasyonu başarılı.');
     } catch (error) {
         console.error('❌ Veritabanı bağlantı hatası:', error);
     }
+
+    // Default bir veri tabanı verileri oluşturuyorum.
+    const defalutData = await Promise.all([
+        import('../defaultdb.js')
+    ]);
+
 };
 
 initializeDatabase();

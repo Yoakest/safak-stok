@@ -4,14 +4,14 @@ import createShipment from './controllers/shipment/createShipment.js';
 
 const defaultdb = async () => {
     const category = [{
-        "name": "kategori1
+        "name": "kategori1"
     }, {
         "name": "kategori2"
     }, {
         "name": "kategori3"
     }, {
         "name": "kategori4"
-    },]
+    },];
 
     const product = [
         {
@@ -103,13 +103,13 @@ const defaultdb = async () => {
             ],
             "hide": false
         },
-    ]
+    ];
 
     const shipment = [
         {
             "no": 2000,
             "type": true,
-            "shipmet_date": "07.04.2025",
+            "shipmet_date": new Date(),
             "customer": "Firma A",
             "pallet_list": [
                 {
@@ -153,18 +153,20 @@ const defaultdb = async () => {
             "total_pallet_list": [
                 {
                     "productId": 1,
-                    "total_quantity": 400
+                    "total_quantity": 400,
+                    "pallets": 4
                 },
                 {
                     "productId": 2,
-                    "total_quantity": 200
+                    "total_quantity": 200,
+                    "pallets": 4
                 }
             ]
         },
         {
             "no": 2001,
             "type": true,
-            "shipmet_date": "07.04.2025",
+            "shipmet_date": new Date(),
             "customer": "Firma B",
             "pallet_list": [
                 {
@@ -208,18 +210,20 @@ const defaultdb = async () => {
             "total_pallet_list": [
                 {
                     "productId": 2,
-                    "total_quantity": 400
+                    "total_quantity": 400,
+                    "pallets": 4
                 },
                 {
                     "productId": 3,
-                    "total_quantity": 200
+                    "total_quantity": 200,
+                    "pallets": 4
                 }
             ]
         },
         {
             "no": 2002,
             "type": true,
-            "shipmet_date": "07.04.2025",
+            "shipmet_date": new Date(),
             "customer": "Firma C",
             "pallet_list": [
                 {
@@ -263,18 +267,20 @@ const defaultdb = async () => {
             "total_pallet_list": [
                 {
                     "productId": 3,
-                    "total_quantity": 400
+                    "total_quantity": 400,
+                    "pallets": 4
                 },
                 {
                     "productId": 4,
-                    "total_quantity": 200
+                    "total_quantity": 200,
+                    "pallets": 4
                 }
             ]
         },
         {
             "no": 2003,
             "type": true,
-            "shipmet_date": "07.04.2025",
+            "shipmet_date": new Date(),
             "customer": "Firma D",
             "pallet_list": [
                 {
@@ -318,18 +324,48 @@ const defaultdb = async () => {
             "total_pallet_list": [
                 {
                     "productId": 1,
-                    "total_quantity": 400
+                    "total_quantity": 150,
+                    "pallets": 2
                 },
                 {
                     "productId": 2,
-                    "total_quantity": 200
+                    "total_quantity": 150,
+                    "pallets": 2
+                },
+                {
+                    "productId": 3,
+                    "total_quantity": 150,
+                    "pallets": 2
+                },
+                {
+                    "productId": 4,
+                    "total_quantity": 150,
+                    "pallets": 2
                 }
             ]
         }
-    ]
+    ];
 
-    for (c of category){
-        
-    }
-}
+    for (const c of category) {
+        const req = { body: c };
+        const res = {};
+        await createCategory(req, res);
+    };
+
+    for (const p of product) {
+        const req = { body: p };
+        const res = {};
+        await createProduct(req, res);
+    };
+
+    for (const s of shipment) {
+        const req = { body: s };
+        const res = {};
+        await createShipment(req, res);
+    };
+};
+
+await defaultdb();
+
+export default defaultdb;
 
