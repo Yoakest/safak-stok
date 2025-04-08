@@ -28,7 +28,7 @@ router.post('/', createProductValidator(), async (req, res) => {
     res.status(201).json({ status: "success", data });
 });
 
-router.put('/', async (req, res) => {
+router.put('/:id', async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
         return res.status(400).json({ errors: errors.array() });
@@ -37,7 +37,7 @@ router.put('/', async (req, res) => {
     res.status(201).json({ status: "success", data })
 })
 
-router.delete('/', async (req, res) => {
+router.delete('/:id', async (req, res) => {
     const data = await deleteProduct(req, res);
     return res.status(200).json({
         status: "success", data

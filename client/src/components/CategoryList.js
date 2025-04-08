@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Table, Button, Container } from "react-bootstrap";
 import alertify from "alertifyjs";
 
-const CategoryList = () => {
+const CategoryList = ({ key }) => {
     const [categories, setCategories] = useState([]);
 
     // Kategorileri getir
@@ -18,18 +18,14 @@ const CategoryList = () => {
 
     useEffect(() => {
         fetchCategories();
-    }, []);
+    }, [key]);
 
     // Silme işlemi
     const handleDelete = async (id) => {
         if (window.confirm("Bu kategoriyi silmek istediğinize emin misiniz?")) {
             try {
-                const res = await fetch(`http://localhost:5001/api/category`, {
+                const res = await fetch(`http://localhost:5001/api/category/${id}`, {
                     method: "DELETE",
-                    headers: {
-                        "Content-Type": "application/json",
-                    },  
-                    body: JSON.stringify({ id }),
                 });
 
                 if (res.ok) {

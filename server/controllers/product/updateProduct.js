@@ -1,7 +1,6 @@
 import Product from '../../models/product.js';
 const updateProduct = async (req, res) => {
     const {
-        id,
         name,
         code,
         brand,
@@ -9,6 +8,8 @@ const updateProduct = async (req, res) => {
         box_quantity,
         hide
     } = req.body;
+
+    const { id } =req.params;
 
     if (!id) {
         return 'Ürün ID bilgisi eksik.';
