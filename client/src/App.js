@@ -5,6 +5,7 @@ import CategoryForm from './components/CategoryForm';
 import CategoryList from "./components/CategoryList";
 import CategoryUpdateForm from "./components/CategoryUpdateForm"
 import CategoryProductList from "./components/CategoryProductList";
+import ProductCreateForm from "./components/ProductCreateForm";
 
 function App() {
   return (
@@ -16,7 +17,7 @@ function App() {
         <Route path="/category-list" element={<CategoryList />} />
         <Route path="/category/:id" element={<CategoryUpdateForm />} />
         <Route path="/category-product/:id" element={<CategoryProductList />} />
-        <Route path="/product" element={<CategoryForm />} />
+        <Route path="/product" element={<ProductCreateForm />} />
       </Routes>
     </Router>
   );

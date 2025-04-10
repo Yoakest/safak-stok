@@ -16,7 +16,7 @@ const MyNavbar = () => {
                 Ürünler
               </Dropdown.Toggle>
               <Dropdown.Menu >
-                <Dropdown.Item >
+                <Dropdown.Item as={Link} to="/product">
                   Ürün Ekle
                 </Dropdown.Item>
                 <Dropdown.Item >
