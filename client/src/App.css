@@ -36,3 +36,21 @@
     transform: rotate(360deg);
   }
 }
+
+.my-dropdown .dropdown-toggle {
+  background-color: #ff6600; /* Turuncu arkaplan */
+  color: white;
+  border: none;
+}
+
+.my-dropdown .dropdown-menu {
+  background-color: #333; /* Menü arka planı */
+  color: white;
+}
+.my-dropdown .dropdown-item {
+  color: white;
+}
+.my-dropdown .dropdown-item:hover {
+  background-color: #555;
+}
+

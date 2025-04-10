@@ -3,6 +3,7 @@ import { Form, Button, Container } from "react-bootstrap";
 import alertify from "alertifyjs";
 import 'alertifyjs/build/css/alertify.min.css';
 import CategoryList from "./CategoryList";
+import axios from "../utils/axios.js";
 
 const CategoryForm = () => {
   const [name, setName] = useState("");
@@ -12,19 +13,12 @@ const CategoryForm = () => {
     e.preventDefault();
 
     try {
-      const response = await fetch("http://localhost:5001/api/category", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name }),
-      });
+      const response = await axios.post("/category", { name: name });
+      console.log(response);
 
-      if (response.ok) {
-        alertify.success("Kategori başarıyla oluşturuldu.");
-        setName("");
-        setListKey(prev => prev += 1);
-      } else {
-        alertify.error("Kategori oluşturulamadı.");
-      }
+      alertify.success("Kategori başarıyla oluşturuldu.");
+      setName("");
+      setListKey(prev => prev += 1);
     } catch (err) {
       alertify.error("Sunucu hatası.");
     }
@@ -40,7 +34,7 @@ const CategoryForm = () => {
             <Form.Label>Kategori Adı</Form.Label>
             <Form.Control
               type="text"
-              placeholder="Örneğin: Elektronik"
+              placeholder="Bir kategori adı giriniz."
               value={name}
               onChange={(e) => setName(e.target.value)}
               required
@@ -54,7 +48,7 @@ const CategoryForm = () => {
       </Container>
       <CategoryList key={listKey} />
     </>
-);
+  );
 };
 
 export default CategoryForm;

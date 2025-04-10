@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { Table, Button, Container } from "react-bootstrap";
 import alertify from "alertifyjs";
+import axios from "../utils/axios.js";
+import { Link } from "react-router-dom";
+
 
 const CategoryList = ({ key }) => {
     const [categories, setCategories] = useState([]);
@@ -8,8 +11,7 @@ const CategoryList = ({ key }) => {
     // Kategorileri getir
     const fetchCategories = async () => {
         try {
-            const res = await fetch("http://localhost:5001/api/category");
-            const data = await res.json();
+            const { data } = await axios.get("/category");
             setCategories(data.data);
         } catch (err) {
             alertify.error("Kategoriler alınamadı.");
@@ -24,26 +26,15 @@ const CategoryList = ({ key }) => {
     const handleDelete = async (id) => {
         if (window.confirm("Bu kategoriyi silmek istediğinize emin misiniz?")) {
             try {
-                const res = await fetch(`http://localhost:5001/api/category/${id}`, {
-                    method: "DELETE",
-                });
+                await axios.delete(`/category/${id}`)
 
-                if (res.ok) {
-                    alertify.success("Kategori silindi.");
-                    fetchCategories(); // listeyi güncelle
-                } else {
-                    alertify.error("Silme işlemi başarısız.");
-                }
+                alertify.success("Kategori silindi.");
+                fetchCategories(); // listeyi güncelle
+
             } catch (err) {
                 alertify.error("Sunucu hatası.");
             }
         }
-    };
-
-    // Düzenleme yönlendirmesi (daha sonra bir form sayfasına yönlendirilecek)
-    const handleEdit = (id) => {
-        alertify.message(`Düzenleme sayfasına git: ID ${id}`);
-        // burada navigate(`/category/edit/${id}`) gibi bir şey yapılabilir
     };
 
     return (
@@ -62,9 +53,10 @@ const CategoryList = ({ key }) => {
                     {categories.map((cat, index) => (
                         <tr key={cat.id}>
                             <td>{index + 1}</td>
-                            <td>{cat.name}</td>
+                            <td><Link style={{ textDecoration: "none", color: "inherit" }} as={Link} to={`/category-product/${cat.id}`}>{cat.name}</Link></td>
                             <td>
-                                <Button variant="warning" size="sm" className="me-2" onClick={() => handleEdit(cat.id)}>
+                                <Button variant="warning" size="sm" className="me-2" as={Link} to={`/category/${cat.id}`}
+                                >
                                     Düzenle
                                 </Button>
                                 <Button variant="danger" size="sm" onClick={() => handleDelete(cat.id)}>
@@ -75,7 +67,7 @@ const CategoryList = ({ key }) => {
                     ))}
                 </tbody>
             </Table>
-        </Container>
+        </Container >
     );
 };
 

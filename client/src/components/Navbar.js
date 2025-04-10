@@ -10,8 +10,8 @@ const MyNavbar = () => {
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto">
             <Nav.Link as={Link} to="/">Anasayfa</Nav.Link>
-            <Nav.Link as={Link} to="/category">kategoriler</Nav.Link>
-            <Dropdown >
+            <Nav.Link as={Link} to="/category">Kategori</Nav.Link>
+            <Dropdown className="my-dropdown" >
               <Dropdown.Toggle >
                 Ürünler
               </Dropdown.Toggle>

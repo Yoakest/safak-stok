@@ -28,7 +28,7 @@ router.post('/', createCategoryValidator(), async (req, res) => {
         return res.status(400).json({ errors: errors.array() });
     }
     const created = await createCategory(req, res);
-    return res.status(201).json({
+    return res.status(200).json({
         status: "success",
         data: created.name
     });
@@ -40,7 +40,7 @@ router.put('/:id', createCategoryValidator(), async (req, res) => {
         return res.status(400).json({ errors: errors.array() })
     }
     await updateCategory(req, res);
-    return res.status(201).json({ status: "success", data: req.body });
+    return res.status(200).json({ status: "success", data: req.body });
 });
 
 router.delete('/:id', async (req, res) => {

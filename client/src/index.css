@@ -16,3 +16,21 @@ code {
   background-color: green;
   color: white;
 }
+
+
+
+.my-dropdown .dropdown-toggle {
+  background-color: #ff6600; /* Turuncu arkaplan */
+  color: white;
+  border: none;
+}
+
+.my-dropdown .dropdown-toggle:active {
+  background-color: #be4c00; /* Turuncu arkaplan */
+  color: white;
+  border: none;
+}
+.my-dropdown .dropdown-item:hover {
+  background-color: #ff66003a;
+}
+
