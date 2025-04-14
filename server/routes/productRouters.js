@@ -29,10 +29,7 @@ router.post('/', createProductValidator(), async (req, res) => {
 });
 
 router.put('/:id', async (req, res) => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-        return res.status(400).json({ errors: errors.array() });
-    };
+
     const data = await updateProduct(req, res)
     res.status(201).json({ status: "success", data })
 })

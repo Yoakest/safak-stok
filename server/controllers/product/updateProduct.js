@@ -9,7 +9,8 @@ const updateProduct = async (req, res) => {
         hide
     } = req.body;
 
-    const { id } =req.params;
+
+    const { id } = req.params;
 
     if (!id) {
         return 'Ürün ID bilgisi eksik.';
@@ -26,7 +27,10 @@ const updateProduct = async (req, res) => {
     if (brand) product.brand = brand;
     if (pallet_quantity) product.pallet_quantity = pallet_quantity;
     if (box_quantity) product.box_quantity = box_quantity;
-    if (hide) product.hide = hide;
+    if (hide === true || hide === false) product.hide = hide;
+
+    console.log("product")
+    console.log(product)
 
     await Product.update(product, { where: { id } });
     const updatedProduct = await Product.findByPk(id);

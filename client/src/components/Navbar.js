@@ -11,15 +11,16 @@ const MyNavbar = () => {
           <Nav className="me-auto">
             <Nav.Link as={Link} to="/">Anasayfa</Nav.Link>
             <Nav.Link as={Link} to="/category">Kategori</Nav.Link>
+            <Nav.Link as={Link} to="/product">Ürünler</Nav.Link>
             <Dropdown className="my-dropdown" >
               <Dropdown.Toggle >
                 Ürünler
               </Dropdown.Toggle>
               <Dropdown.Menu >
-                <Dropdown.Item as={Link} to="/product">
+                <Dropdown.Item as={Link} to="/product/create">
                   Ürün Ekle
                 </Dropdown.Item>
-                <Dropdown.Item >
+                <Dropdown.Item as={Link} to='/product' >
                   Ürün Listele
                 </Dropdown.Item>
                 <Dropdown.Item >

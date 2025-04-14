@@ -20,9 +20,13 @@ const getProducts = async (req, res) => {
 };
 
 const getProductById = async (req, res) => {
-    const { category } = req.query;
+    const { category, pallet } = req.query;
     if (category) {
         return await Product.findByPk(req.params.id, { include: Category });
+    } else if (pallet) {
+        return await Product.findByPk(req.params.id, {
+            include: Pallet
+        });
     } else {
         return await Product.findByPk(req.params.id);
     };

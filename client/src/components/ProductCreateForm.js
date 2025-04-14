@@ -35,15 +35,11 @@ const ProductCreateForm = () => {
         setProduct({ ...product, [name]: type === "checkbox" ? checked : value });
     };
 
-    const handleCategoryChange = (e) => {
-        const selected = Array.from(e.target.selectedOptions, option => Number(option.value));
-        setProduct({ ...product, categoryId: selected });
-    };
-
     const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log("Gönderilen veri:", product);
-        // axios.post('/product', product) // backend'e gönderilebilir
+        console.log("Gönderilen veri:");
+        console.log(product);
+        axios.post('/product', product) // backend'e gönderilebilir
     };
 
     return (

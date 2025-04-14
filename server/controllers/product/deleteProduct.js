@@ -4,7 +4,7 @@ const deleteProduct = async (req, res) => {
     const existingProduct = await Product.findOne({ where: { id } });
     if (existingProduct) {
         await Product.destroy({ where: { id } });
-        return { name: req.body.name };
+        return;
     }
     else {
         return {
