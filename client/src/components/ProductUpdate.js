@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import axios from "../utils/axios";
 import { Container, Form, Button } from "react-bootstrap";
@@ -14,26 +14,50 @@ const ProductUpdate = () => {
         pallet_quantity: "",
         box_quantity: "",
         hide: false,
+        Categories: []
     });
-    const [newProduct, setNewProduct] = useState({});
 
-    const getProduct = async () => {
+    const [newProduct, setNewProduct] = useState({});
+    const [categories, setCategories] = useState([]);
+
+    const getProduct = useCallback(async () => {
         try {
-            const { data } = await axios.get(`/product/${id}`);
-            setForm(data.data);
+            const { data } = await axios.get(`/product/${id}?category=true`);
+            const product = data.data;
+
+            // Kategori ID'lerini ayrı bir dizi olarak al
+            const categoryIdArray = product.Categories.map(c => c.id);
+
+            setForm({
+                ...product,
+                categoryId: categoryIdArray, // sadece ID dizisi
+            });
+
         } catch (error) {
             console.error("Ürün alınamadı:", error);
         }
-    };
+        console.log(id)
+    }, [id]);
+
+
+    const getCategories = useCallback(async () => {
+        try {
+            const { data } = await axios.get('/category');
+            setCategories(data.data);
+        } catch (error) {
+            console.error("Kategoriler alınamadı.", error);
+        };
+    }, []);
 
     const handleChange = async (e) => {
+        console.log(categories);
         console.log(e.target);
         const { name, value, type, checked } = e.target;
-        await setNewProduct(prev => ({
+        setNewProduct(prev => ({
             ...prev,
             [name]: type === "checkbox" ? checked : value
         }));
-        await setForm(prev => ({
+        setForm(prev => ({
             ...prev,
             [name]: type === "checkbox" ? checked : value
         }));
@@ -41,6 +65,7 @@ const ProductUpdate = () => {
     };
 
     const handleSubmit = async (e) => {
+        console.log(newProduct);
         e.preventDefault();
         try {
             console.log(newProduct);
@@ -55,7 +80,8 @@ const ProductUpdate = () => {
 
     useEffect(() => {
         getProduct();
-    }, []);
+        getCategories();
+    }, [getProduct, getCategories]);
 
     return (
         <Container className="mt-5">
@@ -97,7 +123,7 @@ const ProductUpdate = () => {
                     <Form.Label>Palet içi adet</Form.Label>
                     <Form.Control
                         type="text"
-                        name="pallet_quantity"
+                        name="pallet_quantity şafaköç"
                         value={form.pallet_quantity}
                         onChange={handleChange}
                     />
@@ -122,6 +148,41 @@ const ProductUpdate = () => {
                         onChange={handleChange}
                     />
                 </Form.Group>
+
+                <Form.Group className="mb-3">
+                    <Form.Label>Kategoriler</Form.Label>
+                    <div>
+                        {categories.map((cat) => (
+                            <Form.Check
+                                key={cat.id}
+                                type="checkbox"
+                                label={cat.name}
+                                value={cat.id}
+                                checked={form.categoryId?.includes(cat.id)} // kontrollü!
+                                onChange={(e) => {
+                                    const id = Number(e.target.value);
+                                    const isChecked = e.target.checked;
+
+                                    setForm((prev) => ({
+                                        ...prev,
+                                        categoryId: isChecked
+                                            ? [...prev.categoryId, id] // seçili değilse ekle
+                                            : prev.categoryId.filter((cId) => cId !== id), // seçiliyse çıkar
+                                    }));
+
+                                    // API'ye göndermek için ayrı newProduct state'in varsa onu da güncelle:
+                                    setNewProduct((prev) => ({
+                                        ...prev,
+                                        categoryId: isChecked
+                                            ? [...(prev.categoryId || form.categoryId), id]
+                                            : (prev.categoryId || form.categoryId).filter((cId) => cId !== id),
+                                    }));
+                                }}
+                            />
+                        ))}
+                    </div>
+                </Form.Group>
+
 
                 <Button type="submit" variant="primary">Kaydet</Button>
             </Form>

@@ -6,7 +6,8 @@ const updateProduct = async (req, res) => {
         brand,
         pallet_quantity,
         box_quantity,
-        hide
+        hide,
+        categoryId
     } = req.body;
 
 
@@ -28,6 +29,11 @@ const updateProduct = async (req, res) => {
     if (pallet_quantity) product.pallet_quantity = pallet_quantity;
     if (box_quantity) product.box_quantity = box_quantity;
     if (hide === true || hide === false) product.hide = hide;
+
+    if (Array.isArray(categoryId)) {
+        await existingProduct.setCategories(categoryId);
+    };
+
 
     console.log("product")
     console.log(product)

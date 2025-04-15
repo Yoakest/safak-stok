@@ -16,11 +16,10 @@ const ProductCreateForm = () => {
 
     const [categories, setCategories] = useState([]);
 
-    // Kategorileri veritabanından al
     const fetchCategories = async () => {
         try {
             const { data } = await axios.get("/category");
-            setCategories(data.data); // backend'de response { data: [...] } şeklindeyse
+            setCategories(data.data);
         } catch (err) {
             alertify.error("Kategoriler alınamadı.");
         }

@@ -6,15 +6,35 @@ import alertify from "alertifyjs";
 
 const ProductList = () => {
     const [products, setProducts] = useState([]);
+    const [categories, setCategories] = useState([]);
+    const [selectedCategoryId, setSelectedCategoryId] = useState(null);
 
     const getProducts = async () => {
         try {
-            const { data } = await axios.get("/product");
+            const { data } = await axios.get("/product?category=true");
             await setProducts(data.data);
         } catch (error) {
             console.error("Ürünler alınırken hata oluştu:", error);
         }
     };
+
+
+    const getCategories = async () => {
+        try {
+            const { data } = await axios.get("/category");
+            setCategories(data.data);
+        } catch (error) {
+            console.error("Kategoriler alınırken hata:", error);
+        }
+    };
+
+    const filteredProducts = selectedCategoryId
+        ? products.filter((p) =>
+            p.Categories?.some((cat) => cat.id === selectedCategoryId)
+        )
+        : products;
+
+
 
     const handleDelete = async (id) => {
         if (window.confirm("Bu kategoriyi silmek istediğinize emin misiniz?")) {
@@ -32,12 +52,36 @@ const ProductList = () => {
 
     useEffect(() => {
         getProducts();
+        getCategories();
     }, []);
 
     return (
+
         <Container className="mt-5">
+            <div className="mb-3">
+                <strong>Kategoriye göre filtrele:</strong>{" "}
+                <Button
+                    variant={selectedCategoryId === null ? "primary" : "outline-primary"}
+                    onClick={() => setSelectedCategoryId(null)}
+                    className="me-2"
+                >
+                    Tüm Ürünler
+                </Button>
+                {categories.map((cat) => (
+                    <Button
+                        key={cat.id}
+                        variant={selectedCategoryId === cat.id ? "primary" : "outline-primary"}
+                        onClick={() => setSelectedCategoryId(cat.id)}
+                        className="me-2 mb-2"
+                    >
+                        {cat.name}
+                    </Button>
+                ))}
+            </div>
+
             <div className="d-flex justify-content-between align-items-center mb-3">
                 <h3>Ürün Listesi</h3>
+
                 <Button as={Link} to="/product/create" variant="success">Yeni Ürün Ekle</Button>
             </div>
 

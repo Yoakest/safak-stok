@@ -1,4 +1,4 @@
-import { Navbar, Nav, Container, Dropdown } from "react-bootstrap";
+import { Navbar, Nav, Container } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
 const MyNavbar = () => {
@@ -12,23 +12,6 @@ const MyNavbar = () => {
             <Nav.Link as={Link} to="/">Anasayfa</Nav.Link>
             <Nav.Link as={Link} to="/category">Kategori</Nav.Link>
             <Nav.Link as={Link} to="/product">Ürünler</Nav.Link>
-            <Dropdown className="my-dropdown" >
-              <Dropdown.Toggle >
-                Ürünler
-              </Dropdown.Toggle>
-              <Dropdown.Menu >
-                <Dropdown.Item as={Link} to="/product/create">
-                  Ürün Ekle
-                </Dropdown.Item>
-                <Dropdown.Item as={Link} to='/product' >
-                  Ürün Listele
-                </Dropdown.Item>
-                <Dropdown.Item >
-                  Ürün Düzenle
-                </Dropdown.Item>
-
-              </Dropdown.Menu>
-            </Dropdown>
           </Nav>
         </Navbar.Collapse>
       </Container>
