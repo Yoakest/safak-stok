@@ -7,7 +7,8 @@ import alertify from "alertifyjs";
 const ProductList = () => {
     const [products, setProducts] = useState([]);
     const [categories, setCategories] = useState([]);
-    const [selectedCategoryId, setSelectedCategoryId] = useState(null);
+    const [selectedCategoryIds, setSelectedCategoryIds] = useState([]);
+
 
     const getProducts = async () => {
         try {
@@ -28,11 +29,11 @@ const ProductList = () => {
         }
     };
 
-    const filteredProducts = selectedCategoryId
-        ? products.filter((p) =>
-            p.Categories?.some((cat) => cat.id === selectedCategoryId)
-        )
-        : products;
+    const filteredProducts = selectedCategoryIds.length === 0
+    ? products
+    : products.filter((p) =>
+        p.Categories?.some((cat) => selectedCategoryIds.includes(cat.id))
+    );
 
 
 
@@ -59,25 +60,33 @@ const ProductList = () => {
 
         <Container className="mt-5">
             <div className="mb-3">
-                <strong>Kategoriye göre filtrele:</strong>{" "}
-                <Button
-                    variant={selectedCategoryId === null ? "primary" : "outline-primary"}
-                    onClick={() => setSelectedCategoryId(null)}
-                    className="me-2"
-                >
-                    Tüm Ürünler
-                </Button>
-                {categories.map((cat) => (
-                    <Button
-                        key={cat.id}
-                        variant={selectedCategoryId === cat.id ? "primary" : "outline-primary"}
-                        onClick={() => setSelectedCategoryId(cat.id)}
-                        className="me-2 mb-2"
-                    >
-                        {cat.name}
-                    </Button>
-                ))}
+                <strong>Kategorilere göre filtrele:</strong>
+                <div className="d-flex flex-wrap">
+                    {categories.map((cat) => (
+                        <div key={cat.id} className="me-3">
+                            <label>
+                                <input
+                                    type="checkbox"
+                                    value={cat.id}
+                                    checked={selectedCategoryIds.includes(cat.id)}
+                                    onChange={(e) => {
+                                        const id = Number(e.target.value);
+                                        const checked = e.target.checked;
+
+                                        setSelectedCategoryIds(prev =>
+                                            checked
+                                                ? [...prev, id]
+                                                : prev.filter(cid => cid !== id)
+                                        );
+                                    }}
+                                />{" "}
+                                {cat.name}
+                            </label>
+                        </div>
+                    ))}
+                </div>
             </div>
+
 
             <div className="d-flex justify-content-between align-items-center mb-3">
                 <h3>Ürün Listesi</h3>
@@ -101,7 +110,10 @@ const ProductList = () => {
                     </tr>
                 </thead>
                 <tbody>
-                    {products.length > 0 ? products.map((p, index) => (
+                    {filteredProducts.length > 0 ? filteredProducts.map((p, index) => (
+                        // ...
+
+
                         <tr key={p.id}>
                             <td>{index + 1}</td>
                             <td>{p.name}</td>
@@ -135,6 +147,7 @@ const ProductList = () => {
                                 </Button>
                             </td>
                         </tr>
+
                     )) : (
                         <tr>
                             <td colSpan="10" className="text-center">Ürün bulunamadı.</td>
