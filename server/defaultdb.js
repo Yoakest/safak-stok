@@ -105,11 +105,12 @@ const defaultdb = async () => {
         },
     ];
 
+    const today = new Date().toISOString();
     const shipment = [
         {
             "no": 2000,
             "type": true,
-            "shipmet_date": new Date(),
+            "shipment_date": today,
             "customer": "Firma A",
             "pallet_list": [
                 {
@@ -166,7 +167,7 @@ const defaultdb = async () => {
         {
             "no": 2001,
             "type": true,
-            "shipmet_date": new Date(),
+            "shipment_date": today,
             "customer": "Firma B",
             "pallet_list": [
                 {
@@ -223,7 +224,7 @@ const defaultdb = async () => {
         {
             "no": 2002,
             "type": true,
-            "shipmet_date": new Date(),
+            "shipment_date": today,
             "customer": "Firma C",
             "pallet_list": [
                 {
@@ -280,7 +281,7 @@ const defaultdb = async () => {
         {
             "no": 2003,
             "type": true,
-            "shipmet_date": new Date(),
+            "shipment_date": today,
             "customer": "Firma D",
             "pallet_list": [
                 {

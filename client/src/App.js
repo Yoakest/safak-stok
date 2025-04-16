@@ -8,6 +8,8 @@ import CategoryProductList from "./components/CategoryProductList";
 import ProductCreateForm from "./components/ProductCreateForm";
 import ProductList from "./components/ProductList";
 import ProductUpdate from "./components/ProductUpdate";
+import ShipmentList from "./components/Shipmentlist";
+import ShipmentCreate from "./components/ShipmentCreate";
 
 function App() {
   return (
@@ -22,6 +24,9 @@ function App() {
         <Route path="/product/create" element={<ProductCreateForm />} />
         <Route path="/product" element={<ProductList />} />
         <Route path="/product/:id" element={<ProductUpdate />} />
+        <Route path="/shipments" element={<ShipmentList />} />
+        <Route path="/shipment/create" element={<ShipmentCreate />} />
+
       </Routes>
     </Router>
   );

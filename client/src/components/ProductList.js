@@ -32,9 +32,10 @@ const ProductList = () => {
     const filteredProducts = selectedCategoryIds.length === 0
     ? products
     : products.filter((p) =>
-        p.Categories?.some((cat) => selectedCategoryIds.includes(cat.id))
+        selectedCategoryIds.every((selectedId) =>
+            p.Categories?.some((cat) => cat.id === selectedId)
+        )
     );
-
 
 
     const handleDelete = async (id) => {
