@@ -12,8 +12,8 @@ const ShipmentList = () => {
     useEffect(() => {
         const fetchData = async () => {
             const [shipmentRes, productRes] = await Promise.all([
-                axios.get("shipment"),
-                axios.get("product"),
+                axios.get("/shipment"),
+                axios.get("/product"),
             ]);
 
             setShipments(shipmentRes.data.data);
@@ -30,6 +30,13 @@ const ShipmentList = () => {
             )
         )
         : shipments;
+
+    const formatDate = (isoDate) => {
+        if (!isoDate) return "—";
+        const [year, month, day] = isoDate.split("-");
+        return `${day}.${month}.${year}`;
+    };
+
 
     return (
         <div className="container mt-5">
@@ -64,7 +71,7 @@ const ShipmentList = () => {
                         className={`card-header text-white ${shipment.type ? 'bg-success' : 'bg-secondary'}`}
                     >
                         <div className="d-flex justify-content-between flex-wrap">
-                            <span><strong>📅 Tarih:</strong> {shipment.shipment_date || "Yok"}</span>
+                            <span><strong>📅 Tarih:</strong> {formatDate(shipment.shipment_date) || "Yok"}</span>
                             <span><strong>🚚 Gönderi No:</strong> {shipment.no}</span>
                             <span><strong>👤 Müşteri:</strong> {shipment.customer}</span>
                         </div>
