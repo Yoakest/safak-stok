@@ -10,7 +10,11 @@ import {
 import axios from "../utils/axios";
 
 const ShipmentCreate = () => {
-    const [shipmentDate, setShipmentDate] = useState("");
+    const [shipmentDate, setShipmentDate] = useState(() => {
+        const today = new Date();
+        return today.toISOString().split("T")[0]; // YYYY-MM-DD formatında tarih
+    });
+
     const [customer, setCustomer] = useState("");
     const [shipmentNo, setShipmentNo] = useState("");
     const [shipmentType, setShipmentType] = useState("entry");
@@ -123,6 +127,7 @@ const ShipmentCreate = () => {
         };
 
         console.log("🚚 Oluşturulan Sevkiyat:", shipmentData);
+        axios.post("/shipment", shipmentData);
     };
 
 
