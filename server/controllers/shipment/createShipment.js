@@ -5,11 +5,14 @@ const createShipment = async (req, res) => {
     const {
         type,
         shipment_date,
-        no,
         customer,
         pallet_list,
         total_pallet_list
     } = req.body;
+
+    const lastShipmentNo = await Shipment.findOne({ order: [["no", "DESC"]] });
+    const no = lastShipmentNo? lastShipmentNo + 1: 10000 ;
+
     const createdShipment = await Shipment.create({
         type,
         shipment_date,

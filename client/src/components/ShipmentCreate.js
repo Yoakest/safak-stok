@@ -16,7 +16,6 @@ const ShipmentCreate = () => {
     });
 
     const [customer, setCustomer] = useState("");
-    const [shipmentNo, setShipmentNo] = useState("");
     const [shipmentType, setShipmentType] = useState("entry");
     const [warehouse, setWarehouse] = useState("Pharmastar");
 
@@ -118,7 +117,6 @@ const ShipmentCreate = () => {
 
     const handleSubmit = () => {
         const shipmentData = {
-            no: parseInt(shipmentNo),
             shipment_date: shipmentDate,
             customer,
             type: shipmentType === "entry",
@@ -139,13 +137,14 @@ const ShipmentCreate = () => {
                 <Row className="mb-3">
                     <Col md={4}>
                         <Form.Group>
-                            <Form.Label>Sevkiyat No</Form.Label>
-                            <Form.Control
-                                type="number"
-                                value={shipmentNo}
-                                onChange={(e) => setShipmentNo(e.target.value)}
-                                required
-                            />
+                            <Form.Label>Sevkiyat Türü</Form.Label>
+                            <Form.Select
+                                value={shipmentType}
+                                onChange={(e) => setShipmentType(e.target.value)}
+                            >
+                                <option value="entry">Giriş</option>
+                                <option value="exit">Çıkış</option>
+                            </Form.Select>
                         </Form.Group>
                     </Col>
                     <Col md={4}>
@@ -171,21 +170,7 @@ const ShipmentCreate = () => {
                             />
                         </Form.Group>
                     </Col>
-                </Row>
 
-                <Row className="mb-4">
-                    <Col md={4}>
-                        <Form.Group>
-                            <Form.Label>Sevkiyat Türü</Form.Label>
-                            <Form.Select
-                                value={shipmentType}
-                                onChange={(e) => setShipmentType(e.target.value)}
-                            >
-                                <option value="entry">Giriş</option>
-                                <option value="exit">Çıkış</option>
-                            </Form.Select>
-                        </Form.Group>
-                    </Col>
                 </Row>
 
                 {/* GİRİŞ İSE AÇILSIN */}
