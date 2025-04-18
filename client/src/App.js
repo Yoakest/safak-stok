@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { HashRouter  as Router, Routes, Route } from "react-router-dom";
 import MyNavbar from './components/Navbar';
 import Home from './components/Home';
 import CategoryForm from './components/CategoryForm';
@@ -10,6 +10,7 @@ import ProductList from "./components/ProductList";
 import ProductUpdate from "./components/ProductUpdate";
 import ShipmentList from "./components/Shipmentlist";
 import ShipmentCreate from "./components/ShipmentCreate";
+import PalletList from "./components/PalletList";
 
 function App() {
   return (
@@ -26,6 +27,7 @@ function App() {
         <Route path="/product/:id" element={<ProductUpdate />} />
         <Route path="/shipments" element={<ShipmentList />} />
         <Route path="/shipment/create" element={<ShipmentCreate />} />
+        <Route path="/pallet" element={<PalletList />} />
 
       </Routes>
     </Router>

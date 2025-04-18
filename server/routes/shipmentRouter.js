@@ -11,8 +11,9 @@ router.get('/', async (req, res) => {
 })
 
 router.post('/', createShipmentValidator(), async (req, res) => {
-    const data = createShipment(req, res);
+    const data = await createShipment(req, res); // <-- await eklendi
     res.status(200).json({ status: "success", data });
 });
+
 
 export default router;

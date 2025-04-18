@@ -13,6 +13,7 @@ const MyNavbar = () => {
             <Nav.Link as={Link} to="/category">Kategori</Nav.Link>
             <Nav.Link as={Link} to="/product">Ürünler</Nav.Link>
             <Nav.Link as={Link} to="/shipments">Sevkiyatlar</Nav.Link>
+            <Nav.Link as={Link} to="/pallet">Paletler</Nav.Link>
           </Nav>
         </Navbar.Collapse>
       </Container>

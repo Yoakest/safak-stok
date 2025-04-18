@@ -24,6 +24,11 @@ const ShipmentCreate = () => {
     const [palletList, setPalletList] = useState([]);
     const [totalPalletList, setTotalPalletList] = useState([]);
 
+    const [selectedProductId, setSelectedProductId] = useState(null);
+    const [productPallets, setProductPallets] = useState([]);
+    const [addedPalletIndexes, setAddedPalletIndexes] = useState([]); // eklendi yazısını takip için
+
+
     // Sayfa ilk yüklendiğinde bir kez çalışır
     useEffect(() => {
         const fetchProducts = async () => {
@@ -40,6 +45,9 @@ const ShipmentCreate = () => {
         } else {
             setCustomer("");
         }
+        setPalletList([]);
+        setTotalPalletList([]);
+        setAddedPalletIndexes([]);
     }, [shipmentType]);
 
 
@@ -115,6 +123,77 @@ const ShipmentCreate = () => {
         setTotalPalletList(updatedTotal);
     };
 
+    const handleProductSelect = async (productId) => {
+        setSelectedProductId(productId);
+        setAddedPalletIndexes([]);
+        const { data } = await axios.get(`/product/${productId}?pallet=true`);
+        setProductPallets(data.data.Pallets);
+    };
+
+    const handleAddExitPallet = (pallet, index) => {
+        const quantity = parseInt(pallet.quantity) || 0;
+        const newPallet = {
+            ...pallet,
+            quantity: quantity,
+            location: pallet.location,
+            productId: pallet.productId,
+            id: pallet.id, // sunucuya gönderilecek orijinal palet id’si
+        };
+
+        setPalletList([...palletList, newPallet]);
+        setAddedPalletIndexes([...addedPalletIndexes, index]);
+
+        const existing = totalPalletList.find((item) => item.productId === pallet.productId);
+        if (existing) {
+            const updated = totalPalletList.map((item) =>
+                item.productId === pallet.productId
+                    ? {
+                        ...item,
+                        pallets: item.pallets + 1,
+                        total_quantity: item.total_quantity + quantity,
+                    }
+                    : item
+            );
+            setTotalPalletList(updated);
+        } else {
+            setTotalPalletList([
+                ...totalPalletList,
+                {
+                    productId: pallet.productId,
+                    pallets: 1,
+                    total_quantity: quantity,
+                },
+            ]);
+        }
+    };
+
+    const handleRemoveExitPallet = (indexToRemove) => {
+        const removed = palletList[indexToRemove];
+        const newList = palletList.filter((_, idx) => idx !== indexToRemove);
+        setPalletList(newList);
+
+        // Total listeden çıkar
+        const updated = totalPalletList
+            .map(item => {
+                if (item.productId === removed.productId) {
+                    return {
+                        ...item,
+                        pallets: item.pallets - 1,
+                        total_quantity: item.total_quantity - removed.quantity
+                    };
+                }
+                return item;
+            })
+            .filter(item => item.pallets > 0);
+
+        setTotalPalletList(updated);
+
+        // "eklendi" işaretini kaldır
+        setAddedPalletIndexes(addedPalletIndexes.filter(idx => idx !== removed.index));
+    };
+
+
+
     const handleSubmit = () => {
         const shipmentData = {
             shipment_date: shipmentDate,
@@ -123,8 +202,7 @@ const ShipmentCreate = () => {
             pallet_list: palletList,
             total_pallet_list: totalPalletList
         };
-
-        console.log("🚚 Oluşturulan Sevkiyat:", shipmentData);
+        // console.log(shipmentData)
         axios.post("/shipment", shipmentData);
     };
 
@@ -237,6 +315,79 @@ const ShipmentCreate = () => {
                     </>
                 )}
             </Form>
+
+            {shipmentType === "exit" && (
+                <>
+                    <hr />
+                    <h5>📤 Çıkış Detayları</h5>
+                    <Form.Group className="mb-3">
+                        <Form.Label>Ürün Seç</Form.Label>
+                        <Form.Select onChange={(e) => handleProductSelect(e.target.value)}>
+                            <option value="">-- Seçiniz --</option>
+                            {products.map((product) => (
+                                <option key={product.id} value={product.id}>
+                                    {product.name} - {product.code}
+                                </option>
+                            ))}
+                        </Form.Select>
+                    </Form.Group>
+
+                    {productPallets.length > 0 && (
+                        <>
+                            <h6>📦 Paletler</h6>
+                            <Table bordered striped>
+                                <thead>
+                                    <tr>
+                                        <th>Palet No</th>
+                                        <th>Depo</th>
+                                        <th>Ürün Adı</th>
+                                        <th>Ürün Kodu</th>
+                                        <th>Miktar</th>
+                                        <th>İşlem</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {productPallets.map((p, index) => (
+                                        <tr key={p.id}>
+                                            <td>{p.id}</td>
+                                            <td>{p.location}</td>
+                                            <td>{products.find(pr => pr.id === p.productId)?.name}</td>
+                                            <td>{products.find(pr => pr.id === p.productId)?.code}</td>
+                                            <td>
+                                                <Form.Control
+                                                    type="number"
+                                                    defaultValue={p.quantity}
+                                                    min={1}
+                                                    onChange={(e) => {
+                                                        const updated = [...productPallets];
+                                                        updated[index].quantity = parseInt(e.target.value);
+                                                        setProductPallets(updated);
+                                                    }}
+                                                    disabled={addedPalletIndexes.includes(index)}
+                                                />
+                                            </td>
+                                            <td>
+                                                {addedPalletIndexes.includes(index) ? (
+                                                    <span className="text-success">Eklendi</span>
+                                                ) : (
+                                                    <Button
+                                                        size="sm"
+                                                        variant="success"
+                                                        onClick={() => handleAddExitPallet(p, index)}
+                                                    >
+                                                        Ekle
+                                                    </Button>
+                                                )}
+                                            </td>
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </Table>
+                        </>
+                    )}
+                </>
+            )}
+
 
             {palletList.length > 0 && (
                 <>
