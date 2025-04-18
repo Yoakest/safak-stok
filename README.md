@@ -1,9 +1,10 @@
 # Şafak Stok Takip Sistemi
 
+Şuan üzerinde geliştirmeye devam ettiğim projem şuan daha tamamlanmadı yapılacak bazı işlemler kaldı.
 Bu proje, bir işletmenin depo stoklarını takip edebilmesini sağlamak için geliştirilmiş tam kapsamlı bir **stok yönetim sistemidir**. Kullanıcılar ürün giriş/çıkış işlemlerini yönetebilir, stok miktarlarını görebilir ve palet bazlı takip yapabilir.
 
 ## 📸 Ekran Görüntüleri
-
+Eklenecek
 ## 🚀 Özellikler
 
 - Depo yönetimi
@@ -13,7 +14,7 @@ Bu proje, bir işletmenin depo stoklarını takip edebilmesini sağlamak için g
 - Gerçek zamanlı stok durumu
 - Kullanıcı dostu arayüz EKLENMEYE DEVAM EDİYOR
 - Kullanıcı rolleri (admin, kullanıcı vb.) EKLENECEK
-
+- İşlemlerin doğruluğu için validatörler eklenecek, veriler kontrol edilecek. EKLENECEK
 ---
 
 ## 🛠️ Kullanılan Teknolojiler
