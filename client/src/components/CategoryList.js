@@ -11,11 +11,14 @@ const CategoryList = ({ key }) => {
     // Kategorileri getir
     const fetchCategories = async () => {
         try {
-            const { data } = await axios.get("/category");
-            setCategories(data.data);
+            await axios.get("/category").then(
+                ({ data }) => {
+                    setCategories(data.data);
+                }
+            );
         } catch (err) {
             alertify.error("Kategoriler alınamadı.");
-        }
+        };
     };
 
     useEffect(() => {
@@ -26,12 +29,16 @@ const CategoryList = ({ key }) => {
     const handleDelete = async (id) => {
         if (window.confirm("Bu kategoriyi silmek istediğinize emin misiniz?")) {
             try {
-                await axios.delete(`/category/${id}`)
+                await axios.delete(`/category/${id}`).then(
+                    ({ data }) => {
+                        alertify.success(data.data);
+                    }
+                );
 
-                alertify.success("Kategori silindi.");
                 fetchCategories(); // listeyi güncelle
 
-            } catch (err) {
+            } catch (error) {
+                console.log(error);
                 alertify.error("Sunucu hatası.");
             }
         }

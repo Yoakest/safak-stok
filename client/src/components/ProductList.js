@@ -30,12 +30,12 @@ const ProductList = () => {
     };
 
     const filteredProducts = selectedCategoryIds.length === 0
-    ? products
-    : products.filter((p) =>
-        selectedCategoryIds.every((selectedId) =>
-            p.Categories?.some((cat) => cat.id === selectedId)
-        )
-    );
+        ? products
+        : products.filter((p) =>
+            selectedCategoryIds.every((selectedId) =>
+                p.Categories?.some((cat) => cat.id === selectedId)
+            )
+        );
 
 
     const handleDelete = async (id) => {
@@ -46,10 +46,9 @@ const ProductList = () => {
                 alertify.success("Ürün silindi.");
                 await getProducts();
             } catch (error) {
-                console.log(error);
+                alertify.error("Sunucu hatasıl oluştu.")
             };
         };
-        console.log(products)
     };
 
     useEffect(() => {

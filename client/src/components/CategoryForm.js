@@ -9,19 +9,29 @@ const CategoryForm = () => {
   const [name, setName] = useState("");
   const [listKey, setListKey] = useState("");
 
+  // Kategori oluştur
   const handleSubmit = async (e) => {
-    e.preventDefault();
-
     try {
-      const response = await axios.post("/category", { name: name });
-      console.log(response);
+      e.preventDefault();
+      await axios.post("/category", { name: name }).then((data) => {
+        if (data.data.status === "success") {
+          alertify.success(`"${data.data.data}" oluşturuldu.`);
+        } else {
+          alertify.error("Sunucu hatası oluştu")
+        };
+      });
 
-      alertify.success("Kategori başarıyla oluşturuldu.");
       setName("");
       setListKey(prev => prev += 1);
-    } catch (err) {
-      alertify.error("Sunucu hatası.");
-    }
+    } catch (error) {
+      if (error.response.status === 400) {
+        error.response.data.errors.forEach((e) => {
+          alertify.error(e.msg);
+        })
+      }else{
+        alertify.error("Sunucu hatası oluştu");
+      };
+    };
   };
 
   return (

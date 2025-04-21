@@ -11,8 +11,9 @@ const UpdateCategory = () => {
 
     const getCategory = async () => {
         try {
-            const { data } = await axios.get(`/category/${id}`);
-            setName(data.data.name); // veya: setName(data.data.name);
+            await axios.get(`/category/${id}`).then(({ data }) => {
+                setName(data.data.name)
+            })
         } catch (err) {
             alertify.error("Kategori getirilirken hata oluştu.");
         }
@@ -25,9 +26,12 @@ const UpdateCategory = () => {
             await axios.put(`/category/${id}`, { name });
             alertify.success("Kategori güncellendi.");
             navigate("/category"); // geri liste sayfasına yönlendir
-        } catch (err) {
-            alertify.error("Güncelleme başarısız.");
-        }
+        } catch (error) {
+            const errors = error.response.data.errors;
+            errors.forEach(e => {
+                alertify.error(e.msg);
+            });
+        };
     };
 
     useEffect(() => {

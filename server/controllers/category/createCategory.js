@@ -4,7 +4,8 @@ const createCategory = async (req, res) => {
     const create = await Category.create(
         { name: name }
     );
+
     return create;
-}
+};
 
 export default createCategory;

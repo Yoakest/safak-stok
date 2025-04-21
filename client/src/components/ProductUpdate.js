@@ -36,7 +36,6 @@ const ProductUpdate = () => {
         } catch (error) {
             console.error("Ürün alınamadı:", error);
         }
-        console.log(id)
     }, [id]);
 
 
@@ -50,8 +49,6 @@ const ProductUpdate = () => {
     }, []);
 
     const handleChange = async (e) => {
-        console.log(categories);
-        console.log(e.target);
         const { name, value, type, checked } = e.target;
         setNewProduct(prev => ({
             ...prev,
@@ -61,14 +58,12 @@ const ProductUpdate = () => {
             ...prev,
             [name]: type === "checkbox" ? checked : value
         }));
-        console.log(newProduct);
     };
 
     const handleSubmit = async (e) => {
         console.log(newProduct);
         e.preventDefault();
         try {
-            console.log(newProduct);
             await axios.put(`/product/${id}`, newProduct);
             alertify.success("Ürün güncellendi.");
             navigate("/product"); // liste sayfasına dön

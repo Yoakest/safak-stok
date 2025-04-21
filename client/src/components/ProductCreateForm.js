@@ -36,8 +36,6 @@ const ProductCreateForm = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log("Gönderilen veri:");
-        console.log(product);
         axios.post('/product', product) // backend'e gönderilebilir
     };
 

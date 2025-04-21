@@ -202,7 +202,6 @@ const ShipmentCreate = () => {
             pallet_list: palletList,
             total_pallet_list: totalPalletList
         };
-        // console.log(shipmentData)
         axios.post("/shipment", shipmentData);
     };
 

@@ -34,10 +34,6 @@ const updateProduct = async (req, res) => {
         await existingProduct.setCategories(categoryId);
     };
 
-
-    console.log("product")
-    console.log(product)
-
     await Product.update(product, { where: { id } });
     const updatedProduct = await Product.findByPk(id);
     return updatedProduct;

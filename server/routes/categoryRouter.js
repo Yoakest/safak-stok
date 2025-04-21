@@ -9,38 +9,35 @@ import deleteCategory from '../controllers/category/deleteCategory.js';
 
 const { getCategoryById, getCategories } = getCategory;
 
-router.get('/', async (req, res) => {
-    const category = await getCategories(req, res);
-    res.json({ data: category });
-})
 
-router.get('/:id', async (req, res) => {
-        const category = await getCategoryById(req, res);
-        res.json({ data: category });
- 
+// Kategorileri listele
+router.get('/', async (req, res) => {
+    await getCategories(req, res);
 });
 
+// id'e göre kategori getir
+router.get('/:id', async (req, res) => {
+    await getCategoryById(req, res);
+});
 
+// Kategori oluştur
 router.post('/', createCategoryValidator(), async (req, res) => {
     const errors = validationResult(req);
 
     if (!errors.isEmpty()) {
         return res.status(400).json({ errors: errors.array() });
-    }
-    const created = await createCategory(req, res);
-    return res.status(200).json({
-        status: "success",
-        data: created.name
-    });
+    };
+    
+    await createCategory(req, res);
 });
 
+// Kategori güncelle
 router.put('/:id', createCategoryValidator(), async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
         return res.status(400).json({ errors: errors.array() })
     }
     await updateCategory(req, res);
-    return res.status(200).json({ status: "success", data: req.body });
 });
 
 router.delete('/:id', async (req, res) => {
