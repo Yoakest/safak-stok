@@ -4,7 +4,18 @@
 Bu proje, bir işletmenin depo stoklarını takip edebilmesini sağlamak için geliştirilmiş tam kapsamlı bir **stok yönetim sistemidir**. Kullanıcılar ürün giriş/çıkış işlemlerini yönetebilir, stok miktarlarını görebilir ve palet bazlı takip yapabilir.
 
 ## 📸 Ekran Görüntüleri
-Eklenecek
+Kategoriler
+![Alt text](/screenshot/category.png?raw=true "Optional Title")
+Ürünler
+![Alt text](/screenshot/product.png?raw=true "Optional Title")
+Ürün Oluştur
+![Alt text](/screenshot/createProduct.png?raw=true "Optional Title")
+Sevkiyatlar
+![Alt text](/screenshot/shipmet.png?raw=true "Optional Title")
+Gelen Sevkiyat
+![Alt text](/screenshot/inboundShipment.png?raw=true "Optional Title")
+Giden Sevkiyat
+![Alt text](/screenshot/outBoundShipment.png?raw=true "Optional Title")
 ## 🚀 Özellikler
 
 - Depo yönetimi
