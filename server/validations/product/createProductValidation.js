@@ -1,16 +1,14 @@
 import { body } from 'express-validator'
 import Product from '../../models/product.js'
 
-const createProductValidator = () => {
+const createProductValidation = () => {
     return [
         body('name')
             .trim()
-            .notEmpty().withMessage('Ürün adı boş olamaz.')
             .isLength({ min: 3 }).withMessage('Ürün adı en az 3 karakter olmalı.')
             .isLength({ max: 100 }).withMessage('Ürün adı en fazla 100 karakter olabilir.'),
         body('code')
             .trim()
-            .notEmpty().withMessage('Ürün kodu boş olamaz.')
             .isLength({ min: 3 }).withMessage('Ürün kodu 3 karakterden az olamaz.')
             .isLength({ max: 10 }).withMessage('Ürün kodu en fazla 10 karakter olabilir.')
             .custom(async (value) => {
@@ -36,4 +34,4 @@ const createProductValidator = () => {
     ]
 }
 
-export { createProductValidator }
+export { createProductValidation }

@@ -1,23 +1,47 @@
+import alertify from "alertifyjs";
 import axios from "../utils/axios.js";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import Select from "react-select"
 
 
 const ShipmentList = () => {
     const [shipments, setShipments] = useState([]);
-    const [products, setProducts] = useState([]);
+    const [categoryOptions, setCategoryOptions] = useState([]);
     const [selectedProductId, setSelectedProductId] = useState("");
     const navigate = useNavigate();
+    const [page, setPage] = useState(1);
+    const [totalPages, setTotalPages] = useState(1);
+    
+
 
     useEffect(() => {
         const fetchData = async () => {
-            const [shipmentRes, productRes] = await Promise.all([
-                axios.get("/shipment"),
-                axios.get("/product"),
+            const [shipmentRes, categoryRes] = await Promise.all([
+                await axios.get("/shipment"),
+                await axios.get("/category?product=true"),
             ]);
 
+            console.log(shipmentRes);
+
             setShipments(shipmentRes.data.data);
-            setProducts(productRes.data.data);
+            var newOptions = [];
+            categoryRes.data.data.forEach((c) => {
+                const optionGroup = {
+                    label: c.name,
+                    options: [],
+                };
+
+                c.Products.forEach((p) => {
+                    optionGroup.options.push({
+                        value: p.id,
+                        label: p.name,
+                    });
+                });
+
+                newOptions.push(optionGroup);
+            });
+            setCategoryOptions(newOptions);
         };
 
         fetchData();
@@ -37,6 +61,21 @@ const ShipmentList = () => {
         return `${day}.${month}.${year}`;
     };
 
+    const fetchShipments = async (page) => {
+        try {
+            const res = await axios.get(`/shipment?page=${page}&limit=10`);
+            setShipments(res.data.data);
+            setTotalPages(res.data.totalPages);
+        } catch (err) {
+            alertify.error("Sevkiyatlar alınamadı.");
+        }
+    };
+
+    useEffect(() => {
+        fetchShipments(page);
+    }, [page]);
+
+
 
     return (
         <div className="container mt-5">
@@ -47,18 +86,12 @@ const ShipmentList = () => {
 
             <div className="mb-4">
                 <label className="form-label fw-bold">Ürün Seç:</label>
-                <select
-                    className="form-select"
-                    value={selectedProductId}
-                    onChange={(e) => setSelectedProductId(e.target.value)}
-                >
-                    <option value="">Tüm Ürünler</option>
-                    {products.map((product) => (
-                        <option key={product.id} value={product.id}>
-                            {product.name} ({product.code})
-                        </option>
-                    ))}
-                </select>
+                <Select
+                    options={categoryOptions}
+                    onChange={(option) => setSelectedProductId(option?.value)}
+                    isClearable
+                    placeholder="Ürün seçin..."
+                />
             </div>
 
             {filteredShipments.length === 0 && (
@@ -107,6 +140,24 @@ const ShipmentList = () => {
                     </div>
                 </div>
             ))}
+            <div className="d-flex justify-content-center gap-2 mt-4">
+                <button
+                    className="btn btn-outline-primary"
+                    disabled={page === 1}
+                    onClick={() => setPage(prev => prev - 1)}
+                >
+                    ⬅ Önceki
+                </button>
+                <span className="align-self-center">Sayfa {page} / {totalPages}</span>
+                <button
+                    className="btn btn-outline-primary"
+                    disabled={page === totalPages}
+                    onClick={() => setPage(prev => prev + 1)}
+                >
+                    Sonraki ➡
+                </button>
+            </div>
+
         </div>
     );
 };

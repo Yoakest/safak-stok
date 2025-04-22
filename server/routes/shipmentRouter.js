@@ -6,8 +6,7 @@ import getShipments from '../controllers/shipment/getShipment.js';
 
 
 router.get('/', async (req, res) => {
-    const data = await getShipments(req, res);
-    res.status(200).json({ status: "success", data })
+    await getShipments(req, res);
 })
 
 router.post('/', createShipmentValidator(), async (req, res) => {

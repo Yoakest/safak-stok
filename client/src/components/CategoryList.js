@@ -44,6 +44,20 @@ const CategoryList = ({ key }) => {
         }
     };
 
+    const handleOrder = async (id) => {
+        try {
+            await axios.put(`/category/order/${id}`).then(
+                ({ data }) => {
+                    alertify.success("Kategori yeri değiştirildi")
+                    fetchCategories(); // listeyi güncelle
+                }
+            );
+        } catch (error) {
+            console.log(error);
+            alertify.error("Sunucu hatası.");
+        }
+    };
+
     return (
         <Container className="mt-5">
             <h3>Kategoriler</h3>
@@ -60,15 +74,25 @@ const CategoryList = ({ key }) => {
                     {categories.map((cat, index) => (
                         <tr key={cat.id}>
                             <td>{index + 1}</td>
-                            <td><Link style={{ textDecoration: "none", color: "inherit" }} as={Link} to={`/category-product/${cat.id}`}>{cat.name}</Link></td>
+                            <td>{cat.name}</td>
                             <td>
                                 <Button variant="warning" size="sm" className="me-2" as={Link} to={`/category/${cat.id}`}
                                 >
                                     Düzenle
                                 </Button>
-                                <Button variant="danger" size="sm" onClick={() => handleDelete(cat.id)}>
+                                <Button variant="danger" size="sm" className="me-2" onClick={() => handleDelete(cat.id)}>
                                     Sil
                                 </Button>
+                                {index !== categories.length - 1 && (
+                                    <Button
+                                        style={{ transform: "scaleY(-1)" }}
+                                        variant="success"
+                                        size="sm"
+                                        onClick={() => handleOrder(cat.id)}
+                                    >
+                                        ⇪
+                                    </Button>
+                                )}
                             </td>
                         </tr>
                     ))}

@@ -4,6 +4,7 @@ const getCategories = async (req, res) => {
     const { product } = req.query;
     const options = {};
 
+    options.order = [['order', 'ASC']]
     if (product) {
         options.include = {
             model: Product

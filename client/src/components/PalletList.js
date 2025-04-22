@@ -1,20 +1,37 @@
 import React, { useEffect, useState } from "react";
 import axios from "../utils/axios";
+import Select from "react-select"
+
 
 const PalletList = () => {
     const [pallets, setPallets] = useState([]);
     const [filteredPallets, setFilteredPallets] = useState([]);
-    const [products, setProducts] = useState([]);
+    const [categoryOptions, setCategoryOptions] = useState([]);
     const [selectedProductId, setSelectedProductId] = useState("all");
 
     useEffect(() => {
         const fetchData = async () => {
             const palletRes = await axios.get("/pallet");
-            const productRes = await axios.get("/product");
+            const categoryRes = await axios.get("/category?product=true");
 
             setPallets(palletRes.data.data);
-            setFilteredPallets(palletRes.data.data);
-            setProducts(productRes.data.data);
+            var newOptions = [];
+            categoryRes.data.data.forEach((c) => {
+                const optionGroup = {
+                    label: c.name,
+                    options: [],
+                };
+
+                c.Products.forEach((p) => {
+                    optionGroup.options.push({
+                        value: p.id,
+                        label: p.name,
+                    });
+                });
+
+                newOptions.push(optionGroup);
+            });
+            setCategoryOptions(newOptions);
         };
 
         fetchData();
@@ -23,9 +40,13 @@ const PalletList = () => {
     useEffect(() => {
         if (selectedProductId === "all") {
             setFilteredPallets(pallets);
-        } else {
+        } else if (selectedProductId === undefined) {
+            setFilteredPallets(pallets);
+        }
+        else {
+            console.log(selectedProductId)
             setFilteredPallets(
-                pallets.filter(p => p.productId == selectedProductId)
+                pallets.filter(p => p.productId === selectedProductId)
             );
         }
     }, [selectedProductId, pallets]);
@@ -36,18 +57,12 @@ const PalletList = () => {
 
             <div className="mb-3">
                 <label>Ürün Seç</label>
-                <select
-                    className="form-control"
-                    value={selectedProductId}
-                    onChange={(e) => setSelectedProductId(e.target.value)}
-                >
-                    <option value="all">Tüm Ürünler</option>
-                    {products.map(p => (
-                        <option key={p.id} value={p.id}>
-                            {p.name} - {p.code}
-                        </option>
-                    ))}
-                </select>
+                <Select
+                    options={categoryOptions}
+                    onChange={(option) => setSelectedProductId(option?.value)}
+                    isClearable
+                    placeholder="Ürün seçin..."
+                />
             </div>
 
             <div className="table-responsive">

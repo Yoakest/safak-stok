@@ -60,10 +60,9 @@ const initializeDatabase = async () => {
     }
 
     // Default bir veri tabanı verileri oluşturuyorum.
-    const defalutData = await Promise.all([
+    await Promise.all([
         import('../defaultdb.js')
     ]);
-
 };
 
 initializeDatabase();

@@ -3,15 +3,24 @@ import createProduct from './controllers/product/createProduct.js';
 import createShipment from './controllers/shipment/createShipment.js';
 
 const defaultdb = async () => {
-    const category = [{
-        "name": "kategori1"
-    }, {
-        "name": "kategori2"
-    }, {
-        "name": "kategori3"
-    }, {
-        "name": "kategori4"
-    },];
+    const category = [
+        {
+            "name": "kategori1",
+            "order": 0
+        },
+        {
+            "name": "kategori2",
+            "order": 1
+        },
+        {
+            "name": "kategori3",
+            "order": 2
+        },
+        {
+            "name": "kategori4",
+            "order": 3
+        }
+    ];
 
     const product = [
         {
@@ -21,8 +30,7 @@ const defaultdb = async () => {
             "pallet_quantity": "400, 500",
             "box_quantity": "40,50",
             "categoryId": [
-                1,
-                2
+                1
             ],
             "hide": false
         }, {
@@ -32,7 +40,6 @@ const defaultdb = async () => {
             "pallet_quantity": "400, 500",
             "box_quantity": "40,50",
             "categoryId": [
-                1,
                 3
             ],
             "hide": false
@@ -43,8 +50,7 @@ const defaultdb = async () => {
             "pallet_quantity": "400, 500",
             "box_quantity": "40,50",
             "categoryId": [
-                2,
-                4
+                2
             ],
             "hide": false
         }, {
@@ -54,8 +60,7 @@ const defaultdb = async () => {
             "pallet_quantity": "400, 500",
             "box_quantity": "40,50",
             "categoryId": [
-                2,
-                4
+                2
             ],
             "hide": false
         }, {
@@ -65,7 +70,6 @@ const defaultdb = async () => {
             "pallet_quantity": "400, 500",
             "box_quantity": "40,50",
             "categoryId": [
-                4,
                 3
             ],
             "hide": false
@@ -76,7 +80,6 @@ const defaultdb = async () => {
             "pallet_quantity": "400, 500",
             "box_quantity": "40,50",
             "categoryId": [
-                1,
                 2
             ],
             "hide": false
@@ -87,7 +90,6 @@ const defaultdb = async () => {
             "pallet_quantity": "400, 500",
             "box_quantity": "40,50",
             "categoryId": [
-                2,
                 4
             ],
             "hide": false
@@ -98,8 +100,7 @@ const defaultdb = async () => {
             "pallet_quantity": "400, 500",
             "box_quantity": "40,50",
             "categoryId": [
-                3,
-                4
+                3
             ],
             "hide": false
         },

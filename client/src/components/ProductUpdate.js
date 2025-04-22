@@ -61,15 +61,24 @@ const ProductUpdate = () => {
     };
 
     const handleSubmit = async (e) => {
-        console.log(newProduct);
         e.preventDefault();
         try {
-            await axios.put(`/product/${id}`, newProduct);
-            alertify.success("Ürün güncellendi.");
+            await axios.put(`/product/${id}`, newProduct).then((data) => {
+                if (data.data.status === "success") {
+                    alertify.success("Ürün güncellendi");
+                } else {
+                    alertify.error("Sunucu hatası oluştu")
+                };
+            })
             navigate("/product"); // liste sayfasına dön
         } catch (error) {
-            console.error("Güncelleme hatası:", error);
-            alertify.error("Güncelleme başarısız.");
+            if (error.response.status === 400) {
+                error.response.data.errors.forEach((e) => {
+                    alertify.error(e.msg);
+                })
+            } else {
+                alertify.error("Sunucu hatası oluştu");
+            };
         }
     };
 

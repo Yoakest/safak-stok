@@ -1,11 +1,11 @@
 import Category from '../../models/category.js';
 const createCategory = async (req, res) => {
-    const { name } = req.body;
+    const { name, order } = req.body;
     const create = await Category.create(
-        { name: name }
+        { name, order }
     );
 
-    return create;
+    return "Ürün oluşturuldu"
 };
 
 export default createCategory;

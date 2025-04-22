@@ -4,7 +4,6 @@ import Home from './components/Home';
 import CategoryForm from './components/CategoryForm';
 import CategoryList from "./components/CategoryList";
 import CategoryUpdateForm from "./components/CategoryUpdateForm"
-import CategoryProductList from "./components/CategoryProductList";
 import ProductCreateForm from "./components/ProductCreateForm";
 import ProductList from "./components/ProductList";
 import ProductUpdate from "./components/ProductUpdate";
@@ -21,7 +20,6 @@ function App() {
         <Route path="/category" element={<CategoryForm />} />
         <Route path="/category-list" element={<CategoryList />} />
         <Route path="/category/:id" element={<CategoryUpdateForm />} />
-        <Route path="/category-product/:id" element={<CategoryProductList />} />
         <Route path="/product/create" element={<ProductCreateForm />} />
         <Route path="/product" element={<ProductList />} />
         <Route path="/product/:id" element={<ProductUpdate />} />
