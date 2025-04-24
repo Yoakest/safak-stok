@@ -8,8 +8,12 @@ import {
     Table,
 } from "react-bootstrap";
 import axios from "../utils/axios";
+import { useNavigate } from "react-router-dom"
+
 
 const ShipmentCreate = () => {
+    const navigate = useNavigate();
+
     const [shipmentDate, setShipmentDate] = useState(() => {
         const today = new Date();
         return today.toISOString().split("T")[0]; // YYYY-MM-DD formatında tarih
@@ -203,6 +207,7 @@ const ShipmentCreate = () => {
             total_pallet_list: totalPalletList
         };
         axios.post("/shipment", shipmentData);
+        navigate("/shipments");
     };
 
 
