@@ -10,13 +10,14 @@ import ProductUpdate from "./components/ProductUpdate";
 import ShipmentList from "./components/Shipmentlist";
 import ShipmentCreate from "./components/ShipmentCreate";
 import PalletList from "./components/PalletList";
+import MainPageList from "./components/MainPageList.js";
 
 function App() {
   return (
     <Router>
       <MyNavbar />
       <Routes>
-        <Route path="/" element={<Home />} />
+        <Route path="/" element={<MainPageList />} />
         <Route path="/category" element={<CategoryForm />} />
         <Route path="/category-list" element={<CategoryList />} />
         <Route path="/category/:id" element={<CategoryUpdateForm />} />

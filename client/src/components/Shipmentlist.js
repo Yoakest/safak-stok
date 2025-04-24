@@ -15,37 +15,37 @@ const ShipmentList = () => {
     
 
 
-    useEffect(() => {
-        const fetchData = async () => {
-            const [shipmentRes, categoryRes] = await Promise.all([
-                await axios.get("/shipment"),
-                await axios.get("/category?product=true"),
-            ]);
+    // useEffect(() => {
+    //     const fetchData = async () => {
+    //         const [shipmentRes, categoryRes] = await Promise.all([
+    //             await axios.get("/shipment"),
+    //             await axios.get("/category?product=true"),
+    //         ]);
 
-            console.log(shipmentRes);
+    //         console.log(shipmentRes);
 
-            setShipments(shipmentRes.data.data);
-            var newOptions = [];
-            categoryRes.data.data.forEach((c) => {
-                const optionGroup = {
-                    label: c.name,
-                    options: [],
-                };
+    //         setShipments(shipmentRes.data.data);
+    //         var newOptions = [];
+    //         categoryRes.data.data.forEach((c) => {
+    //             const optionGroup = {
+    //                 label: c.name,
+    //                 options: [],
+    //             };
 
-                c.Products.forEach((p) => {
-                    optionGroup.options.push({
-                        value: p.id,
-                        label: p.name,
-                    });
-                });
+    //             c.Products.forEach((p) => {
+    //                 optionGroup.options.push({
+    //                     value: p.id,
+    //                     label: p.name,
+    //                 });
+    //             });
 
-                newOptions.push(optionGroup);
-            });
-            setCategoryOptions(newOptions);
-        };
+    //             newOptions.push(optionGroup);
+    //         });
+    //         setCategoryOptions(newOptions);
+    //     };
 
-        fetchData();
-    }, []);
+    //     fetchData();
+    // }, []);
 
     const filteredShipments = selectedProductId
         ? shipments.filter((shipment) =>

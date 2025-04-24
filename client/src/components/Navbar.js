@@ -10,10 +10,10 @@ const MyNavbar = () => {
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto">
             <Nav.Link as={Link} to="/">Anasayfa</Nav.Link>
-            <Nav.Link as={Link} to="/category">Kategori</Nav.Link>
-            <Nav.Link as={Link} to="/product">Ürünler</Nav.Link>
             <Nav.Link as={Link} to="/shipments">Sevkiyatlar</Nav.Link>
             <Nav.Link as={Link} to="/pallet">Paletler</Nav.Link>
+            <Nav.Link as={Link} to="/product">Ürünler</Nav.Link>
+            <Nav.Link as={Link} to="/category">Kategori</Nav.Link>
           </Nav>
         </Navbar.Collapse>
       </Container>

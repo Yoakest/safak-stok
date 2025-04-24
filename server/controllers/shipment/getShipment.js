@@ -14,6 +14,8 @@ const getShipments = async (req, res) => {
             { model: Product },
         ]
     });
+    const test = await Shipment.findAndCountAll();
+    console.log(test.count);
 
     res.json({
         data: rows,
